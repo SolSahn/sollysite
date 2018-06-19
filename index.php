@@ -13,19 +13,29 @@
         	Post: <input type="text" name="post"/>
          	<input type = "submit"/>
       	</form>
-
-    	<?php
-
-    		$log = fopen('log.txt',"a+") or die("Unable to open post log.");
-    		if (isset($_GET["post"])) {
+      	
+      	<?php
+            function sanitize($input) { // sanitize function to prevent sneaky bois
+                $search = array(
+                    '@<script[^>]*?>.*?</script>@si',   // strip out javascript
+                    '@<[\/\!]*?[^<>]*?>@si',            // strip out html tags
+                    '@<style[^>]*?>.*?</style>@siU',    // strip style tags properly
+                    '@<![\s\S]*?--[ \t\n\r]*>@'         // strip multi-line comments
+                );
+                $output = preg_replace($search, '', $input);
+                return $output;
+            }
+            
+    		$log = fopen('log.txt',"a+") or die("Unable to open post log."); // creates and opens log variable
+    		if (isset($_GET["post"])) { // checks if a post is being made
     			if ($_GET["post"] != "clearlogs") {
     				echo "Post shared!<br><br>";
-    				fwrite($log,$_GET["post"]."<br>");
+    				fwrite($log,sanitize($_GET["post"])."<br>"); // writes sanitized post to log along with a br
     			} else {
-    				file_put_contents('log.txt',"");
+    				file_put_contents('log.txt',""); // clears log if specified
     			}
     		}
-    		echo substr(readfile('log.txt'), 0, -3);
+    		echo substr(readfile('log.txt'), 0, -3); // echos log
     		fclose($log);
 
     	?>
