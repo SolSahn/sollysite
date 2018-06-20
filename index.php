@@ -9,7 +9,7 @@
     </head>
     <body>
         
-    	<form action = "<?php $_PHP_SELF ?>" method = "GET">
+    	<form action = "<?php $_PHP_SELF ?>" method = "POST">
         	Post: <input type="text" name="post"/>
          	<input type = "submit"/>
       	</form>
@@ -27,17 +27,17 @@
             }
             
     		$log = fopen('log.txt',"a+") or die("Unable to open post log."); // creates and opens log variable
-    		if (isset($_GET["post"])) { // checks if a post is being made
-    			if ($_GET["post"] != "clearlogs") {
-    			    if (strlen(str_replace(' ','',$_GET["post"])) > 0) {
+    		if (isset($_POST["post"])) { // checks if a post is being made
+    			if ($_POST["post"] != "clearlogs") {
+    			    if (strlen(str_replace(' ','',sanitize($_POST["post"]))) > 0) { // checks if string length is greater than zero w/o whitespace
         				echo "Post shared!<br><br>";
-        				fwrite($log,sanitize($_GET["post"])."<br>"); // writes sanitized post to log along with a br
+        				fwrite($log,sanitize($_POST["post"])."<br>"); // writes sanitized post to log along with a br
     			    }
     			} else {
     				file_put_contents('log.txt',""); // clears log if specified
     			}
     		}
-    		echo substr(readfile('log.txt'), 0, -3); // echos log
+    		echo file_get_contents('log.txt'); // echos log
     		fclose($log);
 
     	?>
