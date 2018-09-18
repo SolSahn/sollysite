@@ -2,7 +2,7 @@ var movers;
 var amount;
 var gravity;
 function setup() {
-  let canvas = createCanvas(800, 800);
+  let canvas = createCanvas(640, 480);
   canvas.parent('sketch-holder');
   noStroke();
   movers = [];
