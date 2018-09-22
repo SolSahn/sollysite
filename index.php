@@ -30,7 +30,7 @@
                 return $output;
             }
             
-            $secretKey = "6LcBe3AUAAAAAKPj1yH-qjqrjzHxB-kazd5_bpUa";
+            $secretKey = "super secret";
             $ip = $_SERVER['REMOTE_ADDR'];
             
     		$log = fopen('log.txt',"a+") or die("Unable to open post log."); // creates and opens log variable
