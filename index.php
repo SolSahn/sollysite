@@ -40,7 +40,7 @@
     		        $response=file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$secretKey."&response=".$_POST['g-recaptcha-response']."&remoteip=".$ip);
     		        $responseKeys = json_decode($response,true);
     		        
-    		        if(intval($responseKeys["success"]) != 1) {
+    		        if(intval($responseKeys["success"]) == true) {
         		        if ($_POST["post"] != "clearlogs") {
             			    if (strlen(str_replace(' ','',sanitize($_POST["post"]))) > 0) { // checks if string length is greater than zero w/o whitespace
                 				echo "Post shared!<br><br>";
